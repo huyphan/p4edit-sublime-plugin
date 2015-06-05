@@ -49,5 +49,9 @@ class P4EditCommand(sublime_plugin.EventListener):
                 p = subprocess.Popen(command, env=dict(os.environ, P4CLIENT=client), stdout=subprocess.PIPE, stderr=subprocess.PIPE)
                 out, err = p.communicate()
                 if len(err) > 0:
-                    message = "P4Edit was unable to checkout the file due to the following reason: \"%s\"" % err.decode('utf-8').strip()
+                    err = err.decode('utf-8').strip()
+                    if "Perforce password (P4PASSWD) invalid or unset" in err:
+                        message = "P4Edit was unable to checkout the file because you hadn't logged in. Please run 'p4 login' on your console first."
+                    else:
+                        message = "P4Edit was unable to checkout the file due to the following reason: \"%s\"" % err
                     sublime.message_dialog(message)
