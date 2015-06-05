@@ -8,12 +8,13 @@ This plugin will be available on [Sublime Package Manger](https://packagecontrol
 * Create folder `P4Edit`.
 * Clone or download this github repository and copy the content to the newly created folder.
 
+Please make sure that `p4` is available under your `$PATH`, `P4PORT` and `P4USER` environment variables are set properly. 
 
 ## Let the plugin know about your Perforce views
 
 This plugin relies on a predefined mapping between your workspaces and their root directory. The mapping can be updated manually by clicking on `Preferences -> Package Settings -> P4Edit -> Settings`.
 
-You can generate an initial mapping of all your Perforce workspaces by the following bash command:
+Linux and Mac users can generate an initial mapping of all your Perforce workspaces by the following bash command:
 
 ``` bash
 printf "{\n\t\"perforce_views\": {\n" && p4 clients -u $P4USER | awk -F' ' '{print "\t\t\"" $2 "\":\"" $5 "\","}' && printf "\n\t}\n}\n"
