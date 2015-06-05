@@ -13,11 +13,13 @@ This plugin will be available on [Sublime Package Manger](https://packagecontrol
 
 This plugin relies on a predefined mapping between your workspaces and their root directory. The mapping can be updated manually by clicking on `Preferences -> Package Settings -> P4Edit -> Settings`.
 
-You can generate a initial mapping of all your Perforce workspaces by the following bash command:
+You can generate an initial mapping of all your Perforce workspaces by the following bash command:
 
 ``` bash
 printf "{\n\t\"perforce_views\": {\n" && p4 clients -u $P4USER | awk -F' ' '{print "\t\t\"" $2 "\":\"" $5 "\","}' && printf "\n\t}\n}\n"
 ```
+
+Note that the command output also contains the workspaces **not** on your current machine so you might want to remove them from the mapping list.
 
 ## License
 
