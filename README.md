@@ -15,7 +15,9 @@ This plugin relies on a predefined mapping between your workspaces and their roo
 
 You can generate a initial mapping of all your Perforce workspaces by the following bash command:
 
-`printf "{\n\t\"perforce_views\": {\n" && p4 clients -u $P4USER | awk -F' ' '{print "\t\t\"" $2 "\":\"" $5 "\","}' && printf "\n\t}\n}\n"`
+``` bash
+printf "{\n\t\"perforce_views\": {\n" && p4 clients -u $P4USER | awk -F' ' '{print "\t\t\"" $2 "\":\"" $5 "\","}' && printf "\n\t}\n}\n"
+```
 
 ## License
 
