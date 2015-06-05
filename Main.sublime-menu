@@ -1,0 +1,27 @@
+[
+    {
+        "id": "preferences",
+        "children":
+        [
+            {
+                "caption": "Package Settings",
+                "mnemonic": "P",
+                "id": "package-settings",
+                "children":
+                [
+                    {
+                        "caption": "P4Edit",
+                        "children":
+                        [
+                           {
+                                "command": "open_file",
+                                "args": {"file": "${packages}/P4Edit/P4Edit.sublime-settings"},
+                                "caption": "Settings"
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    }
+]

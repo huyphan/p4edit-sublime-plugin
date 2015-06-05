@@ -1,0 +1,7 @@
+{
+    "perforce_views": {
+        "workspace_name1": "/path/to/workspace1/root/",
+        "workspace_name2": "/another/path/to/workspace2/root/",
+        "workspace_name3": "/yet/another/path/to/workspace3/root/",
+    }
+}
