@@ -46,5 +46,8 @@ class P4EditCommand(sublime_plugin.EventListener):
                 message = "Marking %s as being edited under workspace %s" % (file_path, client)
                 sublime.status_message(message)
                 print(message)
-                p = subprocess.Popen(command, env=dict(os.environ, P4CLIENT=client))
-                p.wait()
+                p = subprocess.Popen(command, env=dict(os.environ, P4CLIENT=client), stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+                out, err = p.communicate()
+                if len(err) > 0:
+                    message = "P4Edit was unable to checkout the file due to the following reason: \"%s\"" % err.decode('utf-8').strip()
+                    sublime.message_dialog(message)
