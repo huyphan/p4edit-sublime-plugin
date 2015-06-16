@@ -6,12 +6,7 @@ def is_readonly(filename):
     if not filename or len(filename) <= 0:
         return False
 
-    file_att = os.stat(filename)[0]
- 
-    if (os.name == 'nt'): 
-        return not (file_att & stat.S_IWRITE)
-    else:
-        return not (file_att & stat.UF_IMMUTABLE)
+    return not os.access(filename, os.W_OK)
 
 def is_subdir(path, directory):
     path = os.path.realpath(path)
@@ -26,9 +21,9 @@ def is_subdir(path, directory):
 
 class P4EditCommand(sublime_plugin.EventListener):
     
-    def get_perforce_views(self, view):
+    def get_setting(self, view, setting):
         settings = sublime.load_settings('P4Edit.sublime-settings')
-        return settings.get('perforce_views')
+        return settings.get(setting)
 
     def on_pre_save(self, view):
         file_path = view.file_name()
@@ -38,15 +33,16 @@ class P4EditCommand(sublime_plugin.EventListener):
         if not is_readonly(file_path):
             return
 
-        perforce_views = self.get_perforce_views(view)
+        perforce_views = self.get_setting(view, 'perforce_views')
         dir = os.path.dirname(view.file_name())
         for client, root_dir in perforce_views.items():
             if is_subdir(dir, root_dir):
                 command = ["p4", "edit", file_path]
                 message = "Marking %s as being edited under workspace %s" % (file_path, client)
                 sublime.status_message(message)
-                print(message)
-                p = subprocess.Popen(command, env=dict(os.environ, P4CLIENT=client), stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+                p4_user = self.get_setting(view, 'perforce_user')
+                p4_port = self.get_setting(view, 'perforce_server')
+                p = subprocess.Popen(command, env=dict(os.environ, P4CLIENT=client, P4PORT=p4_port, P4USER=p4_user), stdout=subprocess.PIPE, stderr=subprocess.PIPE)
                 out, err = p.communicate()
                 if len(err) > 0:
                     err = err.decode('utf-8').strip()

@@ -1,4 +1,6 @@
 {
+    "perforce_user": "your_perforce_user",
+    "perforce_server": "ssl:you.perforce.server:1666",
     "perforce_views": {
         "workspace_name1": "/path/to/workspace1/root/",
         "workspace_name2": "/another/path/to/workspace2/root/",
